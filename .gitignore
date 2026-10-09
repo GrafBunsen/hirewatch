@@ -1,0 +1,15 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Agent working notes (local, not part of the product code)
+.agents/

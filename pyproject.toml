@@ -1,0 +1,17 @@
+[project]
+name = "hirewatch"
+version = "0.1.0"
+description = "Watch job listings and notify on new ones. Simple, modular, no AI."
+readme = "README.md"
+authors = [
+    { name = "GrafBunsen" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+hirewatch = "hirewatch:main"
+
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13.0"]
+build-backend = "uv_build"
