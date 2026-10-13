@@ -4,16 +4,14 @@ from pydantic import BaseModel, Field, HttpUrl
 
 
 class Job(BaseModel):
-    """A single job posting.
+    """A single job posting."""
 
-    Dedup via title + source.
-    """
-
+    external_id: str | None = None
     title: str
-    source: str
-    first_seen: date = Field(default_factory=date.today)
-    url: HttpUrl
-    published: str | None = None
     company: str | None = None
     location: str | None = None
+    published: str | None = None
+    first_seen: date = Field(default_factory=date.today)
     description: str | None = None
+    source: str
+    url: HttpUrl
