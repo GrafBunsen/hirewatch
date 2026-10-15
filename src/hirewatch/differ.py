@@ -1,4 +1,4 @@
-from hirewatch.models.job import Job
+from hirewatch.models import Job
 from hirewatch.store import Store
 
 

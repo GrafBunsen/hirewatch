@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from hirewatch.models.source import Source
+from hirewatch.models import Source
 
 
 def test_field_map_key_validation():

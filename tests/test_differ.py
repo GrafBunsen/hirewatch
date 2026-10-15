@@ -1,5 +1,5 @@
 from hirewatch.differ import new_jobs
-from hirewatch.models.job import Job
+from hirewatch.models import Job
 from hirewatch.store import Store
 
 

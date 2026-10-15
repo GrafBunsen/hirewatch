@@ -3,7 +3,7 @@ from xml.etree import ElementTree as ET
 import httpx
 from pydantic import HttpUrl
 
-from hirewatch.models.job import Job
+from hirewatch.models import Job
 
 REQUIRED = {"title", "url"}
 

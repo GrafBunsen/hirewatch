@@ -2,7 +2,7 @@ from pathlib import Path
 
 import yaml
 
-from hirewatch.models.source import Source
+from hirewatch.models import Source
 
 
 def load_source(path: str | Path) -> Source:

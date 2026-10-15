@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from hirewatch.models.job import Job
+from hirewatch.models import Job
 
 
 def test_url_is_valid():

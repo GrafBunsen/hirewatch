@@ -19,3 +19,6 @@ sources/
 
 # Runtime state (seen job IDs; machine-local, not part of the product code)
 state.json
+
+# Local editor config
+.vscode/

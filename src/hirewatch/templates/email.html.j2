@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f4f4f5;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5;">
+      <tr>
+        <td align="center" style="padding: 24px 12px;">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 8px; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+            <tr>
+              <td style="background-color: #1f2937; padding: 20px 28px;">
+                <span style="color: #ffffff; font-size: 18px; font-weight: 600;">hirewatch</span>
+                <span style="color: #9ca3af; font-size: 14px; margin-left: 8px;">
+                  {{ jobs|length }} new job{{ "s" if jobs|length != 1 else "" }}
+                </span>
+              </td>
+            </tr>
+            {% for job in jobs %}
+            <tr>
+              <td style="padding: 18px 28px; border-bottom: 1px solid #f0f0f1;">
+                <a href="{{ job.url }}" style="font-size: 16px; font-weight: 600; color: #2563eb; text-decoration: none; line-height: 1.3;">
+                  {{ job.title }}
+                </a>
+                {% if job.company or job.location %}
+                <div style="color: #6b7280; font-size: 14px; margin-top: 6px;">
+                  {{ job.company or "" }}{% if job.company and job.location %} &middot; {% endif %}{{ job.location or "" }}
+                </div>
+                {% endif %}
+                <div style="color: #9ca3af; font-size: 12px; margin-top: 6px;">
+                  {{ job.source }}
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
