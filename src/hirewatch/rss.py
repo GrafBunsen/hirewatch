@@ -15,7 +15,8 @@ def fetch(url: HttpUrl) -> str:
         str: RSS Content
     """
 
-    return httpx.get(url).text
+    headers = {"User-Agent": "hirewatch/0.1 (+https://github.com/GrafBunsen/hirewatch)"}
+    return httpx.get(str(url), headers=headers, timeout=15, follow_redirects=True).text
 
 
 def parse(

@@ -13,3 +13,6 @@ build/
 
 # Agent working notes (local, not part of the product code)
 .agents/
+
+# Personal source configs (user-specific; an example will be committed instead)
+sources/
