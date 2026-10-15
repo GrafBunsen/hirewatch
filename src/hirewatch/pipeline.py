@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from hirewatch.config import load_sources
 from hirewatch.differ import new_jobs
@@ -10,7 +11,7 @@ from hirewatch.store import Store
 log = logging.getLogger(__name__)
 
 
-def run_once(config: SmtpConfig) -> None:
+def run_once(config: SmtpConfig, store_path: Path | str) -> None:
     """Run one watch cycle: crawl all sources, notify about new jobs, persist state.
 
     Each source is crawled in isolation so one failing source does not abort the
@@ -20,7 +21,7 @@ def run_once(config: SmtpConfig) -> None:
     Args:
         config: SMTP configuration for sending the notification.
     """
-    store = Store("state.json")
+    store = Store(store_path)
     all_new = []
     for source in load_sources():
         try:
