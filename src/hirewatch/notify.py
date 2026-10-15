@@ -12,13 +12,20 @@ _env = Environment(
 )
 
 
-def _render(jobs) -> tuple[str, str]:
+def _render(jobs: list[Job]) -> tuple[str, str]:
     html = _env.get_template("email.html.j2").render(jobs=jobs)
     text = "\n\n".join(f"{j.title}\n{j.url}" for j in jobs)
     return text, html
 
 
 def notify(jobs: list[Job], config: SmtpConfig) -> None:
+    """
+    Send email notification about new jobs.
+
+    Args:
+        jobs (list[Jobs]): list of jobs to notify about
+        config (SmtpConfig): SMTP configuration
+    """
     if not jobs:
         return
     text, html = _render(jobs)

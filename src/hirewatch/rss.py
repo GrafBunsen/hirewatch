@@ -3,7 +3,7 @@ from xml.etree import ElementTree as ET
 import httpx
 from pydantic import HttpUrl
 
-from hirewatch.models import Job
+from hirewatch.models import Job, Source
 
 REQUIRED = {"title", "url"}
 
@@ -55,3 +55,7 @@ def parse(
         jobs.append(Job(source=source, **data))
 
     return jobs
+
+
+def collect(source: Source) -> list[Job]:
+    return parse(fetch(source.url), source.title, source.field_map, source.namespaces)

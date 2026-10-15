@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class SmtpConfig(BaseSettings):
+    """Smtp Config for outgoing notification mails"""
+
     model_config = SettingsConfigDict(env_prefix="", env_file=".env")
 
     smtp_host: str
