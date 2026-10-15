@@ -5,6 +5,8 @@ from pydantic import HttpUrl
 
 from hirewatch.models.job import Job
 
+REQUIRED = {"title", "url"}
+
 
 def fetch(url: HttpUrl) -> str:
     """Fetch RSS Feed
@@ -16,7 +18,9 @@ def fetch(url: HttpUrl) -> str:
     """
 
     headers = {"User-Agent": "hirewatch/0.1 (+https://github.com/GrafBunsen/hirewatch)"}
-    return httpx.get(str(url), headers=headers, timeout=15, follow_redirects=True).text
+    response = httpx.get(str(url), headers=headers, timeout=15, follow_redirects=True)
+    response.raise_for_status()
+    return response.text
 
 
 def parse(
@@ -38,25 +42,16 @@ def parse(
     jobs = []
 
     for item in root.findall(".//item"):
-        guid = item.find(field_map["external_id"]).text
-        title = item.find(field_map["title"]).text
-        company = item.find(field_map["company"], namespaces).text
-        location = item.find(field_map["location"], namespaces).text
-        published = item.find(field_map["published"]).text
-        description = item.find(field_map["description"]).text
-        url = item.find(field_map["url"]).text
+        data = {}
+        for job_field, rss_name in field_map.items():
+            el = item.find(rss_name, namespaces)
+            if el is not None:
+                data[job_field] = el.text
 
-        job = Job(
-            external_id=guid,
-            title=title,
-            company=company,
-            location=location,
-            published=published,
-            description=description,
-            source=source,
-            url=url,
-        )
+        # skip job if missing required arguments, no logging for now
+        if not REQUIRED <= data.keys():
+            continue
 
-        jobs.append(job)
+        jobs.append(Job(source=source, **data))
 
     return jobs
