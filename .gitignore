@@ -16,3 +16,6 @@ build/
 
 # Personal source configs (user-specific; an example will be committed instead)
 sources/
+
+# Runtime state (seen job IDs; machine-local, not part of the product code)
+state.json
