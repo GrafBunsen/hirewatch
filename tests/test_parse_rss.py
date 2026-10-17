@@ -3,7 +3,7 @@ from textwrap import dedent
 from pydantic import HttpUrl
 
 from hirewatch.models import Source
-from hirewatch.rss import parse_rss
+from hirewatch.parse_rss import parse_rss
 
 test_data = dedent("""\
     <?xml version="1.0" encoding="UTF-8"?>

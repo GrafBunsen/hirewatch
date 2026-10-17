@@ -1,9 +1,10 @@
 from hirewatch.models import Job, Source
-from hirewatch.rss import parse_rss
+from hirewatch.parse_css import parse_css
+from hirewatch.parse_rss import parse_rss
 
 PARSERS = {
     "rss": parse_rss,
-    # "css": parse_css,
+    "css": parse_css,
     # "ai": parse_ai,
 }
 
