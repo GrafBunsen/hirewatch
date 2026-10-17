@@ -3,9 +3,10 @@ from pathlib import Path
 
 from hirewatch.config import load_sources
 from hirewatch.differ import new_jobs
+from hirewatch.fetcher import fetch
 from hirewatch.models import SmtpConfig
 from hirewatch.notify import notify
-from hirewatch.rss import collect
+from hirewatch.parser import parse
 from hirewatch.store import Store
 
 log = logging.getLogger(__name__)
@@ -25,7 +26,8 @@ def run_once(config: SmtpConfig, store_path: Path | str) -> None:
     all_new = []
     for source in load_sources():
         try:
-            jobs = collect(source)
+            raw = fetch(source.url)
+            jobs = parse(source, raw)
             new = new_jobs(jobs, store)
             all_new.extend(new)
             log.info("source %s: %d parsed, %d new", source.title, len(jobs), len(new))

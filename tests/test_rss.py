@@ -2,7 +2,8 @@ from textwrap import dedent
 
 from pydantic import HttpUrl
 
-from hirewatch.rss import parse
+from hirewatch.models import Source
+from hirewatch.rss import parse_rss
 
 test_data = dedent("""\
     <?xml version="1.0" encoding="UTF-8"?>
@@ -35,7 +36,14 @@ test_namespaces = {"job_listing": "http://test.com/job_listing"}
 
 
 def test_parse_full_config():
-    result = parse(test_data, "Test Source", test_field_map, test_namespaces)
+    test_source = Source(
+        title="Test Source",
+        url="http://test.com",
+        type="rss",
+        field_map=test_field_map,
+        namespaces=test_namespaces,
+    )
+    result = parse_rss(test_data, test_source)
     assert len(result) == 1
 
     assert result[0].external_id == "test-guid"
@@ -57,7 +65,13 @@ def test_parse_missing_optional():
             </item></channel>
             </rss>"""
     field_map = {"title": "title", "url": "link", "company": "company"}
-    result = parse(data, "Test Source", field_map, None)
+    test_source = Source(
+        title="Test Source",
+        url="http://test.com",
+        type="rss",
+        field_map=field_map,
+    )
+    result = parse_rss(data, test_source)
     assert len(result) == 1
     assert result[0].company is None
 
@@ -71,6 +85,12 @@ def test_parse_skips_item_missing_required_field():
         </channel>
         </rss>"""
     field_map = {"title": "title", "url": "link"}
-    result = parse(data, "Test Source", field_map, None)
+    test_source = Source(
+        title="Test Source",
+        url="http://test.com",
+        type="rss",
+        field_map=field_map,
+    )
+    result = parse_rss(data, test_source)
     assert len(result) == 1
     assert result[0].title == "Test Job"

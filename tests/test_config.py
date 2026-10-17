@@ -6,6 +6,7 @@ def test_load_source_reads_yaml(tmp_path):
     yaml_file.write_text(
         "title: Test Source\n"
         'url: "https://test.com/feed"\n'
+        "type:  rss\n"
         "field_map:\n"
         "  title: title\n"
         "  url: link\n"
@@ -20,7 +21,12 @@ def test_load_source_reads_yaml(tmp_path):
 
 def test_load_sources_skips_broken(tmp_path):
     (tmp_path / "good.yaml").write_text(
-        'title: Good\nurl: "https://test.com"\nfield_map:\n  title: title\n  url: link\n'
+        "title: Good\n"
+        'url: "https://test.com/1"\n'
+        "type:  rss\n"
+        "field_map:\n"
+        "   title: title\n"
+        "   url: link\n"
     )
     (tmp_path / "broken.yaml").write_text("title: Broken\n")
     sources = load_sources(tmp_path)

@@ -6,4 +6,6 @@ from hirewatch.models import Source
 
 def test_field_map_key_validation():
     with pytest.raises(ValidationError, match="field_map missing required keys"):
-        Source(title="Test Source", url="https://test.com", field_map={"title": "title"})
+        Source(
+            title="Test Source", url="https://test.com", field_map={"title": "title"}, type="rss"
+        )
