@@ -9,17 +9,10 @@ class Source(BaseModel):
     title: str
     url: HttpUrl
     type: str
-    field_map: dict[str, str]
+    field_map: dict[str, str] | None = None  # rss/css only
     namespaces: dict[str, str] | None = None  # rss only
     item_selector: str | None = None  # css only
-
-    @field_validator("field_map")
-    @classmethod
-    def _require_keys(cls, v: dict[str, str]) -> dict[str, str]:
-        missing = REQUIRED_FIELDS - v.keys()
-        if missing:
-            raise ValueError(f"field_map missing required keys: {sorted(missing)}")
-        return v
+    criterion: str | None = None
 
     @field_validator("type")
     @classmethod
@@ -30,6 +23,12 @@ class Source(BaseModel):
 
     @model_validator(mode="after")
     def _require_type_fields(self) -> Source:
+        if self.type in {"rss", "css"}:
+            if self.field_map is None:
+                raise ValueError(f"{self.type} source requires field_map")
+            missing = REQUIRED_FIELDS - self.field_map.keys()
+            if missing:
+                raise ValueError(f"field_map missing required keys: {sorted(missing)}")
         if self.type == "css" and self.item_selector is None:
             raise ValueError("css source requires item_selector")
         return self

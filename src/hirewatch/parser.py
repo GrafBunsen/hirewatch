@@ -5,7 +5,6 @@ from hirewatch.parse_rss import parse_rss
 PARSERS = {
     "rss": parse_rss,
     "css": parse_css,
-    # "ai": parse_ai,
 }
 
 

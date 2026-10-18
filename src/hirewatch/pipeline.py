@@ -4,7 +4,8 @@ from pathlib import Path
 from hirewatch.config import load_sources
 from hirewatch.differ import new_jobs
 from hirewatch.fetcher import fetch
-from hirewatch.models import SmtpConfig
+from hirewatch.llm import LlmClient
+from hirewatch.models import LlmConfig, SmtpConfig
 from hirewatch.notify import notify
 from hirewatch.parser import parse
 from hirewatch.store import Store
@@ -24,10 +25,23 @@ def run_once(config: SmtpConfig, store_path: Path | str) -> None:
     """
     store = Store(store_path)
     all_new = []
-    for source in load_sources():
+
+    sources = load_sources()
+
+    if any(s.type == "ai" or s.criterion for s in sources):
+        llmclient = LlmClient(LlmConfig())
+    else:
+        llmclient = None
+
+    for source in sources:
         try:
             raw = fetch(source.url)
-            jobs = parse(source, raw)
+            if source.type == "ai":
+                jobs = llmclient.extract(source, raw)
+            else:
+                jobs = parse(source, raw)
+            if source.criterion:
+                jobs = llmclient.filter_jobs(jobs, source.criterion)
             new = new_jobs(jobs, store)
             all_new.extend(new)
             log.info("source %s: %d parsed, %d new", source.title, len(jobs), len(new))
