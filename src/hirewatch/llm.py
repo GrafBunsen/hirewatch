@@ -78,7 +78,7 @@ class LlmClient:
     def __init__(self, config: LlmConfig):
         api_key = config.api_key or "nokey"
         self.config = config
-        self.client = OpenAI(base_url=str(config.url), api_key=api_key)
+        self.client = OpenAI(base_url=str(config.url), api_key=api_key, timeout=180)
 
     def extract(self, source: Source, content: str) -> list[Job]:
         """
@@ -97,17 +97,18 @@ class LlmClient:
 
         r = self.client.chat.completions.parse(
             model=self.config.model,
-            messages=[{"role": "user", "content": prompt + text + "\n/no_think"}],
+            messages=[{"role": "user", "content": prompt + text}],
             response_format=LlmJobs,
+            reasoning_effort="none",
             temperature=0,
         )
 
         jobs = []
         for llmjob in r.choices[0].message.parsed.jobs:
-            if llmjob.url not in text:
-                log.warning("llm: dropped hallucinated url %s", llmjob.url)
-                continue
             url = urljoin(str(source.url), llmjob.url)
+            if not url.startswith(("http://", "https://")):  # drop mailto:/tel:/etc.
+                log.warning("llm: dropped non-http url %s", llmjob.url)
+                continue
             jobs.append(
                 Job(
                     external_id=url,  # dedup by url: LLM titles drift, urls are stable
