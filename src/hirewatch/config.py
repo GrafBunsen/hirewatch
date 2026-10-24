@@ -22,7 +22,7 @@ def load_source(path: str | Path) -> Source:
     return Source(**data)
 
 
-def load_sources(directory: str | Path = "sources") -> list[Source]:
+def load_sources(directory: str | Path) -> list[Source]:
     """Load all source configs from a directory.
 
     Args:

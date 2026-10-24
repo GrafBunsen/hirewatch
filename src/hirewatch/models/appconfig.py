@@ -9,3 +9,4 @@ class AppConfig(BaseSettings):
     loop: bool = True
     schedule_at: str = "08:00"
     state_path: str = "state.json"
+    sources_dir: str = "sources"

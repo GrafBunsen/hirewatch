@@ -1,0 +1,10 @@
+services:
+    hirewatch:
+        build: .
+        environment:
+            HIREWATCH_SOURCES_DIR: /data/sources
+            HIREWATCH_STATE_PATH: /data/state.json
+        volumes:
+            - ./data:/data
+            - ./.env:/app/.env:ro
+        restart: on-failure:5

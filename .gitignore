@@ -11,14 +11,11 @@ dist/
 build/
 .pytest_cache/
 
-# Agent working notes (local, not part of the product code)
+# Agent working notes
 .agents/
 
-# Personal source configs (user-specific; an example will be committed instead)
-sources/
-
-# Runtime state (seen job IDs; machine-local, not part of the product code)
-state.json
+# Personal source configs and state (user-specific; an example will be committed instead)
+data
 
 # Local editor config
 .vscode/

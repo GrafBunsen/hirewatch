@@ -1,0 +1,12 @@
+.venv
+.git
+.github
+__pycache__
+.pytest_cache
+.ruff_cache
+.agents
+.env
+state.json
+data
+.vscode
+tests

@@ -19,13 +19,13 @@ def main() -> None:
     app = AppConfig()
     smtp = SmtpConfig()
 
-    run_once(smtp, app.state_path)
+    run_once(smtp, app.state_path, app.sources_dir)
 
     if not app.loop:
         return
 
     log.info("scheduling daily run at %s", app.schedule_at)
-    schedule.every().day.at(app.schedule_at).do(run_once, smtp, app.state_path)
+    schedule.every().day.at(app.schedule_at).do(run_once, smtp, app.state_path, app.sources_dir)
     while True:
         schedule.run_pending()
         time.sleep(60)
