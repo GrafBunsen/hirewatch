@@ -31,11 +31,14 @@ docker compose logs -f   # what is it doing / any errors
 ### Published image
 
 Tagging a release (`vX.Y.Z`) publishes a multi-arch image to
-`ghcr.io/grafbunsen/hirewatch`. To run that instead of building locally, replace
-`build: .` in the compose file with:
+`ghcr.io/grafbunsen/hirewatch`. The compose file references that image directly,
+so `docker compose up` pulls it — no local build needed. Use
+`docker compose up --build` only when you want to build from your checkout
+instead (e.g. during development). To pin a specific version rather than track
+`latest`, change the tag in the compose file:
 
 ```yaml
-    image: ghcr.io/grafbunsen/hirewatch:latest
+    image: ghcr.io/grafbunsen/hirewatch:0.1.1
 ```
 
 ## Running one-shot (cron / systemd)

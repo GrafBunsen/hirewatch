@@ -1,5 +1,6 @@
 services:
     hirewatch:
+        image: ghcr.io/grafbunsen/hirewatch:latest
         build: .
         environment:
             HIREWATCH_SOURCES_DIR: /data/sources
