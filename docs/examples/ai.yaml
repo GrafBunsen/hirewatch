@@ -1,0 +1,12 @@
+# A page with no usable structure: the LLM reads it and extracts jobs.
+# No field_map or item_selector needed. Requires an LLM endpoint (see
+# docs/configuration.md) with enough context length for a full page.
+title: example-ai
+type: ai
+url: "https://example.com/careers"
+
+# Optional but usually wanted for ai sources: a plain-language rule that keeps
+# only matching jobs.
+criterion: >
+  Only real job openings (permanent or freelance). No apprenticeships,
+  internships, or volunteer roles.

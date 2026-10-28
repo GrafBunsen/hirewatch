@@ -1,0 +1,22 @@
+# An RSS/Atom job feed. field_map maps job fields to the feed's XML tags.
+# title and url are required; the rest are optional.
+title: example-feed
+type: rss
+url: "https://example.com/jobs/feed/"
+field_map:
+  external_id: guid       # provider's own id, used for de-duplication if present
+  title: title
+  company: company
+  location: location
+  published: pubDate
+  description: description
+  url: link
+
+# Feeds that use a custom XML namespace: declare the prefix, then use prefix:tag
+# in the field_map above (e.g. company: job_listing:company).
+# namespaces:
+#   job_listing: "https://example.com"
+
+# Optional: keep only jobs matching a plain-language rule (needs an LLM endpoint).
+# criterion: >
+#   Only permanent roles in Berlin or remote. No internships.

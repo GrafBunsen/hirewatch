@@ -1,0 +1,18 @@
+# A static HTML page. item_selector matches one job card; the selectors in
+# field_map are evaluated within each card. title and url are required.
+title: example-html
+type: css
+url: "https://example.com/jobs"
+item_selector: "li.job"      # one match per job
+field_map:
+  title: ".job-title"
+  company: ".employer"
+  location: ".location"
+  url: "a@href"              # @attr reads an attribute; use @href alone if the card IS the link
+
+# Relative URLs are resolved against the source url above.
+# Only the fetched page is read (no pagination following).
+
+# Optional: keep only jobs matching a plain-language rule (needs an LLM endpoint).
+# criterion: >
+#   Only jobs in media or communication. No working-student positions.
